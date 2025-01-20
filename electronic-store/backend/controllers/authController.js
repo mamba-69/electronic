@@ -1,43 +1,36 @@
-const chai = require('chai');
-const chaiHttp = require('chai-http');
-const server = require('../server');  // Assuming server.js is the entry point of your app
-const should = chai.should();
+// Ensure no require statements for testing libraries like 'chai' in your controller files
 
-chai.use(chaiHttp);
+const User = require('../models/userModel');
+const { sendOtp } = require('../services/otpService');
 
-describe('Auth Controller', () => {
-    describe('/POST request-otp', () => {
-        it('it should request an OTP for a valid email and mobile', (done) => {
-            const user = {
-                email: 'test@example.com',
-                mobile: '1234567890'
-            };
-            chai.request(server)
-                .post('/auth/request-otp')
-                .send(user)
-                .end((err, res) => {
-                    res.should.have.status(200);
-                    res.text.should.be.eql('OTP sent');
-                    done();
-                });
-        });
-    });
+const requestOtp = async (req, res) => {
+    const { email, mobile } = req.body;
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
 
-    describe('/POST verify-otp', () => {
-        it('it should verify the OTP', (done) => {
-            const user = {
-                email: 'test@example.com',
-                mobile: '1234567890',
-                otp: '123456'  // Use actual OTP for realistic test
-            };
-            chai.request(server)
-                .post('/auth/verify-otp')
-                .send(user)
-                .end((err, res) => {
-                    res.should.have.status(200);
-                    res.text.should.be.eql('Login successful');
-                    done();
-                });
-        });
-    });
-});
+    let user = await User.findOne({ email, mobile });
+    if (!user) {
+        user = new User({ email, mobile, otp });
+    } else {
+        user.otp = otp;
+    }
+    await user.save();
+
+    sendOtp(email, mobile, otp);
+    res.send('OTP sent');
+};
+
+const verifyOtp = async (req, res) => {
+    const { email, mobile, otp } = req.body;
+    const user = await User.findOne({ email, mobile, otp });
+
+    if (user) {
+        res.send('Login successful');
+    } else {
+        res.send('Invalid OTP');
+    }
+};
+
+module.exports = {
+    requestOtp,
+    verifyOtp
+};
