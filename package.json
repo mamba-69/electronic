@@ -1,6 +1,7 @@
 {
   "dependencies": {
-    "mongoose": "^8.9.5"
+    "mongoose": "^8.9.5",
+    "web-vitals": "^4.2.4"
   },
   "devDependencies": {
     "chai": "^5.1.2",

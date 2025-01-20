@@ -1,0 +1,80 @@
+/* Global styles */
+body {
+  margin: 0;
+  font-family: 'Arial', sans-serif;
+  background-color: #f0f0f0; /* Light background color for light mode */
+  color: #333; /* Text color */
+}
+
+.main-content {
+  padding: 20px;
+}
+
+/* Dark mode styles */
+.dark-mode body {
+  background-color: #2c2c2c; /* Dark background color for dark mode */
+  color: #fff; /* Text color for dark mode */
+}
+
+/* Header styles */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background-color: #333;
+  color: #fff;
+}
+
+.header .logo {
+  height: 50px;
+}
+
+.header h1 {
+  margin: 0;
+}
+
+.header button {
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  background-color: #ffa500;
+  color: #fff;
+  transition: background-color 0.3s;
+}
+
+.header button:hover {
+  background-color: #ff8c00;
+}
+
+/* Footer styles */
+.footer {
+  background-color: #333;
+  color: #fff;
+  padding: 20px 0;
+  text-align: center;
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+}
+
+.footer-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.footer-links {
+  margin-top: 10px;
+}
+
+.footer-links a {
+  color: #ffa500;
+  margin: 0 15px;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.footer-links a:hover {
+  color: #fff;
+}
