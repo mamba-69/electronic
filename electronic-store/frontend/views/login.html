@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <h1>Login</h1>
+    <form id="login-form">
+        <input type="email" id="email" placeholder="Email" required>
+        <input type="tel" id="mobile" placeholder="Mobile" required>
+        <button type="submit">Request OTP</button>
+    </form>
+    <form id="otp-form" style="display: none;">
+        <input type="text" id="otp" placeholder="Enter OTP" required>
+        <button type="submit">Verify OTP</button>
+    </form>
+</body>
+<script src="/js/scripts.js"></script>
+</html>
