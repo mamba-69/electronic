@@ -12,9 +12,9 @@
             "env": {
                 "NODE_ENV": "development",
                 "DEV_MODE": "true",
-                "TWILIO_ACCOUNT_SID": "AC4ab893858e1b1292898065ab6c5f8605",
-                "TWILIO_AUTH_TOKEN": "d303fc4adffe84c899167ad762f136fa",
-                "TWILIO_PHONE_NUMBER": "+15075708290"
+                "TWILIO_ACCOUNT_SID": "${env:TWILIO_ACCOUNT_SID}",
+                "TWILIO_AUTH_TOKEN": "${env:TWILIO_AUTH_TOKEN}",
+                "TWILIO_PHONE_NUMBER": "${env:TWILIO_PHONE_NUMBER}"
             }
         }
     ]
