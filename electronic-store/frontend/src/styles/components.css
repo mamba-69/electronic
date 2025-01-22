@@ -1,0 +1,112 @@
+/* Global styles */
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #333;
+    color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.company-name {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 15px;
+}
+
+.nav a {
+    color: #fff;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.nav a:hover {
+    color: #ffa500;
+}
+
+.theme-switch button {
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    background-color: #ffa500;
+    color: #fff;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.theme-switch button:hover {
+    background-color: #ff8c00;
+}
+
+/* Light mode styles */
+body.light-mode {
+    background-color: #f0f0f0;
+    color: #333;
+}
+
+header.light-mode {
+    background-color: #fff;
+    color: #333;
+}
+
+.nav a.light-mode {
+    color: #333;
+}
+
+.nav a.light-mode:hover {
+    color: #ffa500;
+}
+
+.theme-switch button.light-mode {
+    background-color: #333;
+    color: #fff;
+}
+
+.theme-switch button.light-mode:hover {
+    background-color: #555;
+}
+
+/* Animation for content */
+.main-content {
+    padding: 20px;
+    animation: fadeIn 1s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+/* Add this to your existing components.css or create it if it doesn't exist */
+.admin-container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  /* Add responsive styles */
+  @media (max-width: 768px) {
+    .stats-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  
+    .admin-grid {
+      grid-template-columns: 1fr;
+    }
+  }

@@ -1,48 +1,33 @@
-const twilio = require('twilio');
-const nodemailer = require('nodemailer');
+// services/otpService.js
 
-// Load environment variables
-const accountSid = process.env.TWILIO_ACCOUNT_SID;
-const authToken = process.env.TWILIO_AUTH_TOKEN;
-console.log('TWILIO_ACCOUNT_SID:', accountSid);  // Debugging log
-console.log('TWILIO_AUTH_TOKEN:', authToken);    // Debugging log
-
-if (!accountSid || !authToken) {
-    throw new Error('TWILIO_ACCOUNT_SID and TWILIO_AUTH_TOKEN must be set');
-}
-const client = new twilio(accountSid, authToken);
-
-const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS
+class OTPService {
+    constructor() {
+        console.log('Initializing OTP Service in Development Mode');
+        this.otpStorage = new Map();
     }
-});
 
-const sendOtp = (email, mobile, otp) => {
-    // Send OTP via SMS
-    client.messages.create({
-        body: `Your OTP is ${otp}`,
-        from: '+1234567890',
-        to: mobile
-    });
+    async sendOTP(phoneNumber) {
+        // Always use 123456 as the test OTP in development
+        const testOTP = '123456';
+        this.otpStorage.set(phoneNumber, testOTP);
+        
+        console.log(`[DEV MODE] Sent OTP: ${testOTP} to phone: ${phoneNumber}`);
+        return testOTP;
+    }
 
-    // Send OTP via Email
-    const mailOptions = {
-        from: process.env.EMAIL_USER,
-        to: email,
-        subject: 'Your OTP Code',
-        text: `Your OTP is ${otp}`
-    };
-
-    transporter.sendMail(mailOptions, (error, info) => {
-        if (error) {
-            console.log(error);
-        } else {
-            console.log('Email sent: ' + info.response);
+    async verifyOTP(phoneNumber, otp) {
+        // In development mode, either accept '123456' or check stored OTP
+        const storedOTP = this.otpStorage.get(phoneNumber) || '123456';
+        const isValid = otp === storedOTP;
+        
+        console.log(`[DEV MODE] Verifying OTP for ${phoneNumber}:`, isValid ? 'Valid' : 'Invalid');
+        
+        if (isValid) {
+            this.otpStorage.delete(phoneNumber); // Clean up after successful verification
         }
-    });
-};
+        
+        return isValid;
+    }
+}
 
-module.exports = { sendOtp };
+module.exports = new OTPService();

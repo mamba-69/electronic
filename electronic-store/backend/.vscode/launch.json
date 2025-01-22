@@ -1,0 +1,21 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch Backend",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "program": "${workspaceFolder}/server.js",
+            "env": {
+                "NODE_ENV": "development",
+                "DEV_MODE": "true",
+                "TWILIO_ACCOUNT_SID": "AC4ab893858e1b1292898065ab6c5f8605",
+                "TWILIO_AUTH_TOKEN": "d303fc4adffe84c899167ad762f136fa",
+                "TWILIO_PHONE_NUMBER": "+15075708290"
+            }
+        }
+    ]
+}

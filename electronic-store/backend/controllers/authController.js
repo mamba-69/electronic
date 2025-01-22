@@ -1,36 +1,62 @@
-// Ensure no require statements for testing libraries like 'chai' in your controller files
+// controllers/authController.js
+const OTPService = require('../services/otpService');
 
-const User = require('../models/userModel');
-const { sendOtp } = require('../services/otpService');
+exports.sendOTP = async (req, res) => {
+    try {
+        const { phoneNumber } = req.body;
+        
+        if (!phoneNumber) {
+            return res.status(400).json({
+                success: false,
+                message: 'Phone number is required'
+            });
+        }
 
-const requestOtp = async (req, res) => {
-    const { email, mobile } = req.body;
-    const otp = Math.floor(100000 + Math.random() * 900000).toString();
-
-    let user = await User.findOne({ email, mobile });
-    if (!user) {
-        user = new User({ email, mobile, otp });
-    } else {
-        user.otp = otp;
-    }
-    await user.save();
-
-    sendOtp(email, mobile, otp);
-    res.send('OTP sent');
-};
-
-const verifyOtp = async (req, res) => {
-    const { email, mobile, otp } = req.body;
-    const user = await User.findOne({ email, mobile, otp });
-
-    if (user) {
-        res.send('Login successful');
-    } else {
-        res.send('Invalid OTP');
+        const otp = await OTPService.sendOTP(phoneNumber);
+        
+        res.status(200).json({
+            success: true,
+            message: 'OTP sent successfully',
+            developerNote: 'Development Mode: Use 123456 as OTP'
+        });
+    } catch (error) {
+        console.error('Send OTP Error:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Failed to send OTP'
+        });
     }
 };
 
-module.exports = {
-    requestOtp,
-    verifyOtp
+exports.verifyOTP = async (req, res) => {
+    try {
+        const { phoneNumber, otp } = req.body;
+        
+        if (!phoneNumber || !otp) {
+            return res.status(400).json({
+                success: false,
+                message: 'Phone number and OTP are required'
+            });
+        }
+
+        const isValid = await OTPService.verifyOTP(phoneNumber, otp);
+        
+        if (!isValid) {
+            return res.status(400).json({
+                success: false,
+                message: 'Invalid OTP'
+            });
+        }
+
+        res.status(200).json({
+            success: true,
+            message: 'OTP verified successfully'
+        });
+    } catch (error) {
+        console.error('Verify OTP Error:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Failed to verify OTP'
+        });
+    }
 };

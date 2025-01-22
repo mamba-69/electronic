@@ -4,35 +4,39 @@ const mongoose = require('mongoose');
 const authRoutes = require('./routes/authRoutes');
 const productRoutes = require('./routes/productRoutes');
 const userRoutes = require('./routes/userRoutes');
-const dotenv = require('dotenv');
+const cors = require('cors');
 
-// Load environment variables
-dotenv.config();
+const app = express();
+
+// Middleware
+app.use(cors());
+app.use(bodyParser.json());
 
 // Connect to MongoDB
-mongoose.connect(process.env.MONGO_URI, {
+mongoose.connect(process.env.MONGO_URI || 'mongodb+srv://Mamba69:Mamba0655g@ceramic.svtmo.mongodb.net/?retryWrites=true&w=majority&appName=ceramic', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 }).then(() => {
-    console.log('Connected to MongoDB');
+    console.log('✓ Connected to MongoDB');
 }).catch((error) => {
-    console.error('Error connecting to MongoDB:', error);
+    console.error('✗ MongoDB connection error:', error);
 });
 
-const app = express();
-app.use(bodyParser.json());
-
-// Use routes
-app.use('/auth', authRoutes);
-app.use('/products', productRoutes);
-app.use('/users', userRoutes);
+// Routes
+app.use('/api/auth', authRoutes);
+app.use('/api/products', productRoutes);
+app.use('/api/users', userRoutes);
 
 // Test route
 app.get('/', (req, res) => {
-    res.send('Welcome to the Electronic Store API');
+    res.json({
+        message: 'Electronic Store API is running',
+        environment: 'development'
+    });
 });
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+    console.log(`✓ Server running on port ${PORT}`);
+    console.log('✓ API URL: http://localhost:' + PORT);
 });
